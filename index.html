@@ -2,227 +2,226 @@
 <html lang="sv">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Snabbstart till min IP</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>URL-start & intervall-öppnare</title>
   <style>
     :root { --bg:#0b0f14; --card:#111827; --text:#e5e7eb; --muted:#9ca3af; --accent:#60a5fa; --ok:#34d399; --warn:#f59e0b; }
     *{box-sizing:border-box}
-    body{margin:0;background:linear-gradient(135deg,#0b0f14,#0f172a);font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial;color:var(--text);min-height:100svh;display:grid;place-items:center;padding:24px}
-    .wrap{width:100%;max-width:720px}
+    body{margin:0;background:linear-gradient(135deg,#0b0f14,#0f172a);font-family:system-ui,Segoe UI,Inter,Arial;color:var(--text);min-height:100svh;display:grid;place-items:center;padding:24px}
+    .wrap{width:100%;max-width:760px}
     .card{background:var(--card);border:1px solid #1f2937;border-radius:18px;box-shadow:0 10px 30px rgba(0,0,0,.25);padding:20px}
     h1{margin:0 0 8px;font-size:clamp(24px,3.5vw,36px)}
     p{color:var(--muted);line-height:1.55;margin:0 0 14px}
-    .row{display:flex;gap:10px;align-items:center}
-    input[type="text"], input[type="url"], input[type="number"]{
+    .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+    input[type="text"],input[type="url"],input[type="number"]{
       width:100%;padding:14px 16px;border-radius:12px;border:1px solid #374151;background:#0b1220;color:var(--text);
-      outline:none;transition:.2s border-color,.2s box-shadow; font-size:16px
+      outline:none;transition:.2s border-color,.2s box-shadow;font-size:16px
     }
     input:focus{border-color:var(--accent);box-shadow:0 0 0 4px rgba(96,165,250,.15)}
-    .btn{appearance:none;border:0;border-radius:12px;padding:12px 16px;font-weight:600;cursor:pointer;transition:.2s transform,.2s opacity;.btn:active{transform:translateY(1px)} }
+    .btn{appearance:none;border:0;border-radius:12px;padding:12px 16px;font-weight:600;cursor:pointer;transition:.15s transform,.15s opacity}
+    .btn:active{transform:translateY(1px)}
     .btn-primary{background:var(--accent);color:#0b0f14}
     .btn-ghost{background:transparent;color:var(--text);border:1px solid #374151}
     .btn-warn{background:var(--warn);color:#0b0f14}
     .hint{font-size:14px;color:var(--muted)}
     .pill{display:inline-block;background:#0f172a;border:1px solid #1f2937;color:#cbd5e1;padding:6px 10px;border-radius:999px;font-size:12px}
-    .flex{display:flex;gap:10px;align-items:center}
-    .spbetween{justify-content:space-between}
     .mt{margin-top:14px}
-    .error{color:#fca5a5}
-    .hidden{display:none}
-    .success{color:var(--ok)}
-    code{background:#0b1220;border:1px solid #1f2937;color:#cbd5e1;border-radius:8px;padding:2px 6px}
-    .log{max-height:160px;overflow:auto;background:#0b1220;border:1px solid #1f2937;border-radius:12px;padding:8px;font:12px ui-monospace,SFMono-Regular,Menlo,monospace}
-    .log .ok{color:var(--ok)}
-    .log .fail{color:#fca5a5}
+    .log{max-height:200px;overflow:auto;background:#0b1220;border:1px solid #1f2937;border-radius:12px;padding:8px;font:12px ui-monospace,Menlo,monospace}
+    .log .ok{color:var(--ok)} .log .fail{color:#fca5a5}
     .small{font-size:12px}
+    .error{color:#fca5a5}
+    code{background:#0b1220;border:1px solid #1f2937;color:#cbd5e1;border-radius:6px;padding:2px 6px}
   </style>
 </head>
 <body>
   <main class="wrap">
     <div class="card">
-      <h1>Direkt till min enhet<\/h1>
-      <p>Ange en URL och klicka <strong>Gå<\/strong>. Den här sidan sparar inget lokalt och omdirigerar inte automatiskt.<\/p>
+      <h1>Öppna URL nu & på intervall</h1>
+      <p>Ange en URL och klicka <strong>Gå</strong> – eller starta en intervall som öppnar URL:en i en separat flik/fönster regelbundet. Inget sparas lokalt.</p>
 
-      <!-- VY: FORMULÄR FÖR FÖRSTA GÅNGEN / ÄNDRA -->
+      <!-- FORM: Gå direkt -->
       <section id="setup">
         <form id="goForm" novalidate>
           <label for="target" class="hint">URL</label>
           <div class="row">
-            <input id="target" type="text" inputmode="url" autocomplete="url" placeholder="t.ex. https://exempel.se eller http://exempel.local:8080" />
-            <button class="btn btn-primary" id="saveGo" type="submit">Gå</button>
+            <input id="target" type="text" inputmode="url" autocomplete="url" placeholder="t.ex. https://www.dinsamtalsterapeut.nu/" />
+            <button class="btn btn-primary" id="goBtn" type="submit">Gå</button>
           </div>
           <div class="row mt">
-            <label class="flex hint" style="gap:6px"><input id="forceHttps" type="checkbox"/> Föredra <strong>https://</strong> om inget anges</label>
-            <span class="pill">Tips: Du kan även klistra in en full URL.</span>
+            <label class="hint" style="display:flex;align-items:center;gap:6px"><input id="forceHttps" type="checkbox"/> Föredra <strong>https://</strong> om inget anges</label>
+            <span class="pill">Tips: popup måste tillåtas för intervall-fönstret.</span>
           </div>
           <p id="msg" class="hint"></p>
         </form>
       </section>
 
-      
-
-      <!-- Automatisk kontroll (ping) -->
+      <!-- Automatisk öppning -->
       <section id="monitor" class="mt">
-        <h2 style="margin:12px 0 8px;font-size:18px">Automatisk kontroll</h2>
-        <p class="hint small">Använder adressen i fältet ovan.</p>
+        <h2 style="margin:12px 0 8px;font-size:18px">Automatisk öppning</h2>
+        <p class="hint small">Använder adressen i fältet ovan. Öppnar i en separat flik/fönster varje intervall och loggar status via nätverksping.</p>
         <div class="row mt">
           <label class="hint" for="intervalSec" style="min-width:150px">Intervall (sekunder)</label>
           <input id="intervalSec" type="number" min="2" value="10" style="max-width:140px" />
-          <button class="btn btn-primary" id="startMon">Starta sökning</button>
+          <button class="btn btn-primary" id="startMon">Starta</button>
           <button class="btn btn-ghost" id="stopMon" disabled>Stoppa</button>
+          <button class="btn btn-ghost" id="showWin">Visa fönster</button>
         </div>
-        <div class="row spbetween mt">
+        <div class="row mt" style="justify-content:space-between">
           <span>Senast: <strong id="lastStatus">–</strong></span>
           <span class="pill">OK: <span id="okCount">0</span> · Fel: <span id="failCount">0</span></span>
         </div>
         <div id="log" class="log mt"></div>
-        
+        <div id="report" class="hint small mt"></div>
       </section>
-
     </div>
   </main>
 
-  <script>    const qs = new URLSearchParams(location.search);
-    const noAuto = qs.get('noredirect') === '1' || (window.event && window.event.shiftKey);
-
-    const el = (id)=>document.getElementById(id);
-    const setup = el('setup');
-    const goForm = el('goForm');
+  <script>
+    const el = id => document.getElementById(id);
     const target = el('target');
     const msg = el('msg');
-    $1
+    const goForm = el('goForm');
+    const forceHttps = el('forceHttps');
 
     // Monitor UI refs
     const mon = {
-      sec: document.getElementById('intervalSec'),
-      start: document.getElementById('startMon'),
-      stop: document.getElementById('stopMon'),
-      last: document.getElementById('lastStatus'),
-      ok: document.getElementById('okCount'),
-      fail: document.getElementById('failCount'),
-      log: document.getElementById('log')
+      sec: el('intervalSec'),
+      start: el('startMon'),
+      stop: el('stopMon'),
+      show: el('showWin'),
+      last: el('lastStatus'),
+      ok: el('okCount'),
+      fail: el('failCount'),
+      log: el('log'),
+      report: el('report')
     };
-    let monitorTimer = null;
-    let okCount = 0, failCount = 0;
-    
+
+    // Utils
     function ensureProtocol(value, preferHttps){
-      value = value.trim();
+      value = (value || '').trim();
       if (!value) return '';
-      // Om användaren skrev endast IP/host, lägg protokoll
       if (!/^https?:\/\//i.test(value)) {
         const proto = preferHttps ? 'https://' : 'http://';
         return proto + value;
       }
       return value;
     }
-
     function looksLikeUrl(u){
       try { new URL(u); return true; } catch { return false; }
     }
-
     function normalize(input){
       const withProto = ensureProtocol(input, forceHttps.checked);
-      // Städa dubbla snedstreck: http://192.168.0.10//// -> http://192.168.0.10/
-      try {
-        const url = new URL(withProto);
-        // Bevara port/path om fanns, annars ingen extra logik
-        return url.toString();
-      } catch {
-        return withProto; // låt valideringen ta detta sen
-      }
+      try { return new URL(withProto).toString(); } catch { return withProto; }
     }
-
-    
-    
-    
-
     function go(u){ window.location.href = u; }
 
-    // Knapphändelser
+    // GO handler
     function handleGo(e){
       if (e) e.preventDefault();
       const norm = normalize(target.value);
       if (!looksLikeUrl(norm)) {
-        msg.textContent = 'Ogiltig adress. Ange en giltig URL (t.ex. https://exempel.se eller http://exempel.local:8080).';
+        msg.textContent = 'Ogiltig adress. Ange en giltig URL (t.ex. https://www.dinsamtalsterapeut.nu/).';
         msg.className = 'error';
         return;
       }
       msg.textContent = '';
       go(norm);
     }
-    el('saveGo').addEventListener('click', handleGo);
-    if (goForm) goForm.addEventListener('submit', handleGo);
-      if (!looksLikeUrl(norm)) {
-        msg.textContent = 'Ogiltig adress. Ange en giltig URL (t.ex. https://exempel.se eller http://exempel.local:8080).';
-        msg.className = 'error';
+    el('goBtn').addEventListener('click', handleGo);
+    goForm.addEventListener('submit', handleGo);
+
+    // ----- Intervallöppning -----
+    let monitorTimer = null;
+    let okCount = 0, failCount = 0;
+    let lastStatuses = [];
+    let startedAt = null;
+    let probeWin = null;
+
+    function ensureProbeWin(){
+      if (!probeWin || probeWin.closed){
+        // Öppna eller återanvänd ett namngivet fönster
+        probeWin = window.open('about:blank', 'site-visit', 'width=1024,height=768');
+      }
+      return probeWin;
+    }
+    function navigateWin(url){
+      const w = ensureProbeWin();
+      if (!w){
+        appendLogLine('Popup blockerad – tillåt popup eller klicka “Visa fönster”.', false);
         return;
       }
-      msg.textContent = '';      go(norm);
-    });
-
-              setup.classList.remove('hidden');
-      target.focus();
-    });
-        });
-
-    // Monitor helpers
-    function currentTargetUrlOrThrow(){
-      const norm = normalize(target.value);
-      if (!looksLikeUrl(norm)) throw new Error('Ogiltig adress. Ange en giltig URL.');
-      return norm;
+      const sep = url.includes('?') ? '&' : '?';
+      try { w.location.href = url + sep + '_ts=' + Date.now(); }
+      catch(e){ appendLogLine('Kunde inte öppna fönster: ' + e, false); }
     }
+
     function renderCounts(){ mon.ok.textContent = okCount; mon.fail.textContent = failCount; }
     function appendLogLine(text, ok, ms){
       const time = new Date().toLocaleTimeString();
       const div = document.createElement('div');
       div.innerHTML = `[${time}] <span class="${ok?'ok':'fail'}">${ok?'OK':'FEL'}</span>${ms?` (${ms} ms)`:''} – ${text}`;
       mon.log.prepend(div);
-      // Begränsa loggens längd
-      while (mon.log.childElementCount > 50) mon.log.removeChild(mon.log.lastChild);
+      while (mon.log.childElementCount > 100) mon.log.removeChild(mon.log.lastChild);
     }
-    async function pingOnce(url, timeoutMs = 8000){
-      const ac = new AbortController();
-      const t = setTimeout(()=>ac.abort(), timeoutMs);
-      const start = performance.now();
-      try {
-        await fetch(url + (url.includes('?')?'&':'?') + '_ts=' + Date.now(), { mode:'no-cors', cache:'no-store', redirect:'follow', signal: ac.signal });
-        const ms = Math.round(performance.now() - start);
-        return { ok:true, ms };
-      } catch (err){
-        const ms = Math.round(performance.now() - start);
-        return { ok:false, ms, err: String(err && (err.name || err.message) || err) };
-      } finally { clearTimeout(t); }
+    function updateReport(secs){
+      const runFor = startedAt ? Math.round((Date.now()-startedAt)/1000) : 0;
+      const ok = okCount, fail = failCount;
+      const total = ok+fail;
+      const uptime = total ? Math.round((ok/total)*100) : 0;
+      const recent = lastStatuses.slice(0,20).map(v=>v?'●':'○').join('');
+      mon.report.textContent = `Intervall: ${secs}s · Kört: ${runFor}s · Totalt: ${total} (OK ${ok}, FEL ${fail}) · Uptime: ${uptime}% · Senaste: ${recent}`;
     }
+
+    // Nätverksping (fångar nätverksfel/timeout; 404 syns dock inte i no-cors)
+    function pingOnce(url, timeoutMs = 10000){
+      return new Promise((resolve)=>{
+        const ac = new AbortController();
+        const timer = setTimeout(()=>{ ac.abort(); resolve({ ok:false, ms:null, err:'Timeout' }); }, timeoutMs);
+        const start = performance.now();
+        fetch(url + (url.includes('?')?'&':'?') + '_ts=' + Date.now(), { mode:'no-cors', cache:'no-store', signal: ac.signal })
+          .then(()=>{ clearTimeout(timer); resolve({ ok:true, ms: Math.round(performance.now()-start) }); })
+          .catch(err=>{ clearTimeout(timer); resolve({ ok:false, ms: Math.round(performance.now()-start), err: String(err && (err.name||err.message)||err) }); });
+      });
+    }
+
     async function doCheck(url){
-      mon.last.textContent = 'Kontrollerar…';
+      mon.last.textContent = 'Öppnar…';
+      navigateWin(url);
       const res = await pingOnce(url);
-      if (res.ok){ okCount++; mon.last.textContent = `OK (${res.ms} ms)`; appendLogLine(url, true, res.ms); }
-      else { failCount++; mon.last.textContent = `FEL (${res.ms} ms)`; appendLogLine(res.err || url, false, res.ms); }
+      if (res.ok){ okCount++; mon.last.textContent = `OK${res.ms?` (${res.ms} ms)`:''}`; appendLogLine(url, true, res.ms); lastStatuses.unshift(true); }
+      else { failCount++; mon.last.textContent = `FEL${res.ms?` (${res.ms} ms)`:''}`; appendLogLine(res.err || url, false, res.ms); lastStatuses.unshift(false); }
+      lastStatuses = lastStatuses.slice(0,100);
       renderCounts();
     }
+
     mon.start.addEventListener('click', async ()=>{
       try {
-        const url = currentTargetUrlOrThrow();
+        const url = normalize(target.value);
+        if (!looksLikeUrl(url)) { msg.textContent='Ogiltig adress. Ange en giltig URL.'; msg.className='error'; return; }
         okCount = 0; failCount = 0; lastStatuses = []; renderCounts(); mon.log.innerHTML = '';
         mon.start.disabled = true; mon.stop.disabled = false; mon.last.textContent = 'Startad';
         const secs = Math.max(2, parseInt(mon.sec.value || '10', 10));
         startedAt = Date.now(); updateReport(secs);
-        await doCheck(url); // kör direkt
+        // öppna fönster direkt så popup tillåts
+        ensureProbeWin();
+        await doCheck(url); // första direkt
         monitorTimer = setInterval(()=>{ doCheck(url); updateReport(secs); }, secs * 1000);
       } catch (e){ msg.textContent = e.message || String(e); msg.className = 'error'; }
-    }); }, secs * 1000);
-      } catch (e){ msg.textContent = e.message || String(e); msg.className = 'error'; }
     });
+
     mon.stop.addEventListener('click', ()=>{
       if (monitorTimer){ clearInterval(monitorTimer); monitorTimer = null; }
       mon.start.disabled = false; mon.stop.disabled = true; mon.last.textContent = 'Pausad';
+      updateReport(parseInt(mon.sec.value || '10', 10));
     });
 
-    // Init
-    (function init(){
-      setup.classList.remove('hidden');
-      setTimeout(()=>target.focus(), 50);
-    })();
+    mon.show.addEventListener('click', ()=>{
+      const w = ensureProbeWin();
+      if (!w) alert('Tillåt popupfönster i webbläsaren för att öppna fliken.');
+    });
+
+    // Fokus i fältet från start
+    setTimeout(()=>target.focus(), 50);
   </script>
 </body>
 </html>
